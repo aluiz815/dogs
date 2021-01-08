@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
-import Home from './Components/Home';
-import Login from './Components/Login';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
