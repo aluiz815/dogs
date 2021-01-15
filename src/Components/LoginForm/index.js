@@ -1,43 +1,39 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {Link} from 'react-router-dom';
 import useForm from '../../Hooks/useForm';
 import Button from '../Button';
 import Input from '../Input';
-
-
+import Error from '../Error';
+import {UserContext} from '../../Contexts/UserContext';
+import styles from './LoginForm.module.css';
+import stylesBtn from '../Button/button.module.css';
 function LoginForm() {
-
   const username = useForm();
   const password = useForm();
-
-  function handleSubmit(e) {
+  const {userLogin, error , loading} = useContext(UserContext); 
+  async function handleSubmit(e) {
     e.preventDefault();
     if(username.validate() && password.validate()){
-    fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify()
-    }).then((response) => {
-      console.log(response)
-      return response.json()
-    }).then(json => {
-      console.log(json)
-    })
+    userLogin(username.value,password.value);
   }
-  }
+}
 
   
   return (
-    <section>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+    <section className="animeLeft">
+      <h1 className="title">Login</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <Input label="Usuario" type="text" name="username" {...username}/>
         <Input label="Senha" type="password" name="password" {...password}/>
-        <Button >Entrar</Button>
+        {loading ? (<Button disabled >Carregando...</Button>) : (<Button >Entrar</Button>)}
+        <Error error={error}/>
       </form>
-      <Link to="/login/criar">Cadastro</Link>
+      <Link to="/login/perdeu" className={styles.perdeu}>Perdeu a senha ?</Link>
+      <div className={styles.cadastro}>
+        <h2 className={styles.subtitle}>Cadastre-se</h2>
+        <p>Ainda não possui conta ? Cadastre-se no site.</p>
+        <Link to="/login/criar" className={stylesBtn.button}>Cadastro</Link>
+      </div>
     </section>
   );
 }
