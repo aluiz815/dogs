@@ -9,7 +9,6 @@
 
 - [x] ReactJS
 - [x] React Router Dom
-- [x] React Icons
 
 # Project Ideia
 
